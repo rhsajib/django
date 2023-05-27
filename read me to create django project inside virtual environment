@@ -1,0 +1,74 @@
+sajib@MBP django_projs % pwd
+/Users/sajib/code/projects/django_projs
+
+
+sajib@MBP django_projs % ls
+how to create virtual environment
+
+
+sajib@MBP django_projs % mkdir venv
+sajib@MBP django_projs % cd venv 
+sajib@MBP venv % python3 -m venv .
+
+
+sajib@MBP venv % ls
+bin		include		lib		pyvenv.cfg
+
+
+sajib@MBP venv % source bin/activate
+
+
+(venv) sajib@MBP venv % python -m pip3 install django
+/Users/sajib/code/projects/django_projs/venv/bin/python: No module named pip3
+
+
+(venv) sajib@MBP venv % python -m pip install django 
+Collecting django
+  Using cached Django-4.2-py3-none-any.whl (8.0 MB)
+Collecting asgiref<4,>=3.6.0
+  Using cached asgiref-3.6.0-py3-none-any.whl (23 kB)
+Collecting sqlparse>=0.3.1
+  Using cached sqlparse-0.4.4-py3-none-any.whl (41 kB)
+Installing collected packages: sqlparse, asgiref, django
+Successfully installed asgiref-3.6.0 django-4.2 sqlparse-0.4.4
+
+
+(venv) sajib@MBP venv % python --version
+Python 3.11.3
+
+
+(venv) sajib@MBP venv % django-admin --version
+4.2
+
+
+
+(venv) sajib@MBP venv % django-admin startproject studymart
+(venv) sajib@MBP venv % cd studymart 
+
+
+
+(venv) sajib@MBP studymart % python manage.py runserver
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 18 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+Run 'python manage.py migrate' to apply them.
+May 02, 2023 - 10:39:46
+Django version 4.2, using settings 'studymart.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+
+[02/May/2023 10:40:08] "GET / HTTP/1.1" 200 10731
+[02/May/2023 10:40:08] "GET /static/admin/css/fonts.css HTTP/1.1" 404 1816
+[02/May/2023 10:40:24] "GET / HTTP/1.1" 200 10731
+[02/May/2023 10:40:24] "GET /static/admin/css/fonts.css HTTP/1.1" 404 1816
+^C%                          
+
+                                                                                                                                 (venv) sajib@MBP studymart % deactivate 
+sajib@MBP studymart % 
+
+
+
+

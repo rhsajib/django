@@ -1,0 +1,61 @@
+
+{% extends 'layouts.html' %}
+{% block title %}Home Page{% endblock %}
+
+
+{% block navbar%} 
+{% include 'navbar.html' %}
+{% endblock  %} 
+
+
+
+{% block border%}
+<div class="p-3 m-0 border-0 bd-example">
+
+    <!-- Example Code -->
+    
+    <div class="mb-4">
+    <label for="exampleFormControlInput1" class="form-label">Email address</label>
+    <input type="email" class="form-control border-success" id="exampleFormControlInput1" placeholder="name@example.com">
+    </div>
+    
+    <div class="h4 pb-2 mb-4 text-danger border-bottom border-danger">
+    Dangerous heading
+    </div>
+    
+    <div class="p-3 bg-info bg-opacity-10 border border-info border-start-0 rounded-end">
+    Changing border color and width
+    </div>
+    
+    <!-- End Example Code -->
+</div>
+{% endblock %}
+
+
+{% block content %}
+<div>
+    <h2 class='text-center text-warning'>this is from content block</h2>
+</div>
+<br><br><br>
+<div class='text-info position-relative'>
+    <div class="bg-info p-2 text-dark bg-opacity-25">
+        <p>Name: {{ name}}</p>
+    
+    
+        <p>Age: {{ age}}</p>
+        <p>Phone Number: {{ phonr}}</p>
+        <p>Email: {{ email}}</p>
+        <p>Friends Name:
+            <ul class='list'>
+                {% for friend in  friends_name%}
+                
+                <li class='list-item list-item-action'><a href="#">{{friend}}</a></li>
+                {% endfor %}
+            </ul>
+        </p>
+    </div>
+</div>
+{% endblock  %}
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
