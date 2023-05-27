@@ -41,9 +41,10 @@ Python 3.11.3
 4.2
 
 
-
-(venv) sajib@MBP venv % django-admin startproject studymart
-(venv) sajib@MBP venv % cd studymart 
+(venv) sajib@MBP venv % cd ..
+(venv) sajib@MBP django_projs % 
+(venv) sajib@MBP django_projs % django-admin startproject studymart
+(venv) sajib@MBP django_projs % cd studymart 
 
 
 
