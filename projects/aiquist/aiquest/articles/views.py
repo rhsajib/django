@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from django.http import HttpResponse
 from django.http import Http404
@@ -78,28 +78,20 @@ def article_search_detail(request):
 
 
 def article_create(request):
-    print(request.GET)
-    print(request.POST)
-    title = request.POST.get('title')
-    content = request.POST.get('content')
-    print(title, content)
-    object = Articles.objects.create(title = title, content = content)
-    context = {
-        'obj' : object,
-        'created' : True     # this value indicates that for is created
-    }
 
     # sometimes GET and POST methods are called simultaneously
     # on that time, GET request will show 'None, None' value in terminal
     # so to avoid this we should use the following code 
 
-    
+    context = {}
     if request.method == 'POST':
         title = request.POST.get('title')
         content = request.POST.get('content')
         print(title, content)
-        Articles.objects.create(title = title, content = content)
-        
+        object = Articles.objects.create(title = title, content = content)
+        context['obj'] = object
+        context['created'] = True
+
     """
     title = request.POST.get('title')
     content = request.POST.get('content')
@@ -112,18 +104,57 @@ def article_create(request):
     """
     return render(request, 'articles/create.html', context = context)
 
+# redirect problem
+def article_create_redirect(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        print(title, content)
+        obj = Articles.objects.create(title=title, content=content)
+        return redirect('/articles/', obj)  # Redirect to article detail page
+
+    return render(request, 'articles/create.html')
 
 
 
 
-# see: https://docs.djangoproject.com/en/4.2/intro/tutorial03/
-# def detail(request, id):
-#     try:
-#         article = Articles.objects.get(pk=id)
-#     except Articles.DoesNotExist:
-#         raise Http404("Articles does not exist")
-#     return render(request, "articles/detail.html", {"article": article})
+"""
+I apologize for the misunderstanding.
+The `autocomplete="off"` attribute is used to prevent browsers from autofilling form fields, 
+but it does not prevent form resubmission when navigating back and forward.
 
-# def detail(request, id):
-#     article = get_object_or_404(Articles, pk=id)
-#     return render(request, "articles/detail.html", {"article": article})
+To prevent duplicate form submissions when navigating back and forward, 
+you can implement a technique called Post/Redirect/Get (PRG). 
+The PRG pattern involves redirecting the user to another URL after successfully submitting the form. 
+This way, when the user navigates back, 
+they will be taken to the redirected URL instead of resubmitting the form.
+
+Here's an example of how you can modify your `article_create` function to implement the PRG pattern:
+
+```python
+from django.shortcuts import redirect
+
+def article_create(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        print(title, content)
+        article = Articles.objects.create(title=title, content=content)
+        return redirect('article_detail', id=article.id)  # Redirect to article detail page
+
+    return render(request, 'articles/create.html')
+```
+
+In this example, after creating the `Articles` object, 
+the user is redirected to the `article_detail` page for the newly created article. 
+This redirection helps avoid form resubmission when the user navigates back to the form page.
+
+Make sure to replace `'article_detail'` with the actual URL name or path for 
+your article detail page in the `redirect()` function.
+
+By implementing the PRG pattern, 
+you should prevent duplicate form submissions when navigating back and forward in the browser.
+
+
+
+"""

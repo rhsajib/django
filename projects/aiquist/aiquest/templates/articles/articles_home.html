@@ -6,18 +6,17 @@
 {% block content %}
 <!-- all contents and blocks shoule be inside content block -->
 
-<div style="margin-top:30px; margin-left:100px">
-    <br>
+<div style="margin-top:30px; margin-left:100px; margin-right:100px;">
+    <hr>
     <h4>The below section is randomly choosen.</h4>
-    <ul>
-        <li>Random title: <a href="{% url 'articles:article_random_detail' rand_obj.id %}">{{ rand_obj.title }}</li></a>
-    </ul>
+    <p><strong>
+        Random title: <a href="{% url 'articles:article_random_detail' rand_obj.id %}">{{ rand_obj.title }}</a>
+    </strong></p>
     <p>Refresh the page to see different object.</p>
+    <hr>
 </div>
 
-<hr>
-
-<div style="margin-top:30px; margin-left:100px">
+<div style="margin-top:30px; margin-left:100px; margin-right:100px;">
     <form action="{% url 'articles:article_search_detail' %}" target="_self" method="get"> 
         <!--        
             action="/articles/search/"
@@ -49,21 +48,24 @@
                 # if i type 2 and hit enter or click submit the it wil assign q=2
             -->
 
-            <p><strong>NOTE: If you put random id it will raise 404 error</strong></p>
+            <p><strong>NOTE: If you put invalid id it will raise 404 error</strong></p>
         </fieldset>
     </form>
+    <hr>
 </div>
 
-<hr>
 
-<div style="margin-top:30px; margin-left:100px">
-    <P><a href="{% url 'articles:article_create' %}">Create New Article</a></P>
+<div style="margin-top:30px; margin-left:100px; margin-right:100px;">
+
+    <P><a href="{% url 'articles:article_create_redirect' %}">Create New Article</a></P>
+
     <h2>Here are the list of all titles.</h2>
     <ol>
         {% for obj in all_obj %}    
         <li><a href='/articles/{{obj.id}}/'>{{ obj.title }}</a></li>
         {% endfor %}
     </ol>
+    <hr>
 </div>
 
 {% endblock content %}

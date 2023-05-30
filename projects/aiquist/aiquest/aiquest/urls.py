@@ -25,5 +25,6 @@ urlpatterns = [
     path('machine/', include("machine_learning.urls")),
     path('bigdata/', include("Big_data.urls")),
     path('polls/', include('polls.urls')),
-    path('articles/', include('articles.urls')),    
+    path('articles/', include('articles.urls')),
+    path('accounts/', include('accounts.urls')),
 ]

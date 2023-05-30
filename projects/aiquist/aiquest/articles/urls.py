@@ -9,5 +9,5 @@ urlpatterns = [
     path('<int:id>/', views.article_detail, name= 'article_detail'),
     path('random/<int:id>/', views.article_random_detail, name= 'article_random_detail'),
     path('search/', views.article_search_detail, name= 'article_search_detail'),
-    path('create/', views.article_create, name= 'article_create'),
+    path('create/', views.article_create_redirect, name= 'article_create_redirect'),
 ]
