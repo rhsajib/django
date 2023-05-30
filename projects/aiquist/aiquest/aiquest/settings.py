@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'Data_analysis',
     'Deep_learning',
     'About_us',
+    'Big_data',
+    #'polls',
+    'polls.apps.PollsConfig',
+    'articles.apps.ArticlesConfig',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +63,7 @@ ROOT_URLCONF = 'aiquest.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR /'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

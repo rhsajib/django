@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %} create {% endblock title %} 
+
+{% block content %}
+<div style="margin-top:30px; margin-left:100px">
+    <form action="{% url 'articles:article_search_detail' %}" target="_self" method="get"> 
+        <!--        
+            action="/articles/search/"
+            action="{% url 'articles:article_search_detail' %}"
+            - both actions are same.
+            - action url should be the full url.
+
+            ********************************************************************
+            - action first go to ROOT_urls file. 
+            - that means it will search '/articles/search/' inside 
+            - the root urls.py file where all apps urls are stored.
+            - when if finds 'articles/', it will go to the 'articles' app urls.py and look for
+            - the remaining 'search/' in app urls.py file
+            - when it matches the 'search/' route, it will render the view linked with it
+            ********************************************************************
+
+            here action means '/search.html' will be added with current url.
+            so url for after clicking submit will be '/articles/search.html'
+        -->
+
+        <fieldset>
+            <legend><strong>Search articles id for detail </strong></legend>
+            <label for="article_id">Enter article ID:</label>
+            <input type="text"  name="q", placeholder="article ID" style="opacity: 0.5;"> 
+            <input type="submit">   
+           <!--
+                # here the submitted value will be assigned to 'q'
+                # if i type 2 and hit enter or click submit the it wil assign q=2
+           -->
+        </fieldset>
+    </form>
+</div>
+
+<div style="margin-top:30px; margin-left:100px">
+{% if not created %}
+<!-- The form will show empty -->
+    <h4>Enter title and content.</h4>
+    <form action="{% url 'articles:article_create' %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <label>Title:</label><br>       
+            <input type="text" name="title" placeholder="Title" style="opacity: 0.5;"><br>
+            <label>Content:</label><br>
+            <textarea name="content" placeholder="Content" style="opacity: 0.5;"></textarea>
+        </fieldset>        
+        <button type="submit" style="margin-top:10px;">Create article</button>
+    </form>
+
+
+{% else %}
+<hr>
+<p>Your article was created</p>
+<p><a href="{% url 'articles:article_create' %}">Create new article</a></p>
+
+{% endif %}
+</div>
+
+
+{% endblock content %}
