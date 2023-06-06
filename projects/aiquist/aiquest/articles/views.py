@@ -111,7 +111,14 @@ def article_create_redirect(request):
         content = request.POST.get('content')
         print(title, content)
         obj = Articles.objects.create(title=title, content=content)
-        return redirect('/articles/', obj)  # Redirect to article detail page
+        return redirect('articles:articles_home')
+        # redirect('app_name:url_name')
+        # here redirected to article detail page
+
+        # if i want to redirect to article_detail page, i have to insert an extra argument for 'id'
+        # redirect('app_name:url_name', 'argument_needed_for_url')
+        # for instance, redirect('articles:article_detail', obj.id) 
+       
 
     return render(request, 'articles/create.html')
 

@@ -1,12 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %} articles home{% endblock title %} 
+{% block title %} articles home{% endblock title %}
+
+<!--Adding navbar-->
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock navbar %}
+
 
 
 {% block content %}
 <!-- all contents and blocks shoule be inside content block -->
 
 <div style="margin-top:30px; margin-left:100px; margin-right:100px;">
+
+    <hr>
+    <p><strong><a href="{% url 'accounts:login_view' %}">Login</a></strong></p>
+    
     <hr>
     <h4>The below section is randomly choosen.</h4>
     <p><strong>
