@@ -13,11 +13,16 @@ class Product(models.Model):
 
 Product.objects.create(title = 'Hello world', content = 'this is amazing!', price = 0.00)
 q = product.objects.get(id=1)
-q = product.objects.get(pk=1)
+q = product.objects.get(pk=1)   #pk = primary key
 q.title    # see title of q object
 q.content   # see content of q object
 q.price    # see price of q object
 q.id    # see id of q object
+
+
+# inserting object in a specific id
+q = Contact(id=1, title='new hello world')
+q.save()
 
 
 # creating new object
