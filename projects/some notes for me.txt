@@ -1,5 +1,0 @@
----------------------------------------------------------------------------
-every time i change model.py, i have to run 
-
-python manage.py makemigrations
-python manage.py migrate

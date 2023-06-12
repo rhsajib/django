@@ -39,7 +39,9 @@ q2.delete()
 
 Product.objects.all()
 Product.objects.filter(id=1)
+Product.objects.filter(title='hello world').first()
 Product.objects.filter(title__startswith="Hello")
+
 
 Product.objects.all().order_by('?').first()        # get random product
 
