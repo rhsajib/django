@@ -107,7 +107,7 @@ def user_login(request):
             auth_login(request, user)
 
             # Get the Contact object associated with the username
-            contact = Contact.objects.filter(username=username).first()
+            contact = Contact.objects.get(username=username)
            
             # print('name:', contact.name)
             # print('email:', contact.email)

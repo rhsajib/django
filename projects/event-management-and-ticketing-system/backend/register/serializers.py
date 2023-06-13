@@ -1,8 +1,18 @@
-from rest_framework import serializers
-from django.contrib.auth.models import User
-from rest_framework.validators import UniqueValidator
 from .models import Contact
+
+from django.contrib.auth.models import User
+from django.contrib import messages
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.core.mail import send_mail
+from django.conf import settings
+
+from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
+
+
 
 
 class ContactSerializer(serializers.ModelSerializer):
@@ -54,7 +64,9 @@ class ContactSerializer(serializers.ModelSerializer):
         validated_data['password'] = make_password(password1)
 
         # Create the user object
-        user = User.objects.create(
+
+
+        user = User.objects.create_user(
             username=validated_data['username'],
             password=validated_data['password'],
             email=validated_data['email']
@@ -72,14 +84,33 @@ class ContactSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         """        
+
+        # welcome email
+        subject = 'Welcome to EMTS'
+        message = 'Hello ' + user.username + '!! \n' + 'Welcome to EMTS. \n' +'thanks for visiting our website.'
+
+
+        # Generate activation token
+        token_generator = PasswordResetTokenGenerator()
+        token = token_generator.make_token(user)
+
+        # Generate activation link
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        activation_link = f'{settings.ACTIVATION_BASE_URL}/{uid}/{token}/'
+
+        # Send the email
+        subject = 'Activate your account'
+        message = f'Please click the following link to activate your account: {activation_link}'
+        from_email = settings.DEFAULT_FROM_EMAIL
+        to_email = user.email
+        send_mail(subject, message, from_email, [to_email])
+
+
         
         # Create the YourModel object
         new_contact = Contact.objects.create(**validated_data)
 
+
         return new_contact
     
-    """
-    def create(self, validated_data):
-        
-        return user
-    """
+  
