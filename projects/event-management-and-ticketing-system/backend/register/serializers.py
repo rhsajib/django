@@ -17,21 +17,18 @@ from rest_framework.validators import UniqueValidator
 
 
 
-
-
-
-
 class ContactSerializer(serializers.ModelSerializer):
 
     # # uniqueness validation of username and email fields 
+    email = serializers.EmailField(
+        validators = [UniqueValidator(queryset=Contact.objects.all(), message='Email already exists.')]
+        )
+    
     username = serializers.CharField(
         max_length = 100,
         validators = [UniqueValidator(queryset=Contact.objects.all(), message='Username already exists.')]
         )
     
-    email = serializers.EmailField(
-        validators = [UniqueValidator(queryset=Contact.objects.all(), message='Email already exists.')]
-        )
     
     password1 = serializers.CharField(
         write_only=True,
@@ -79,6 +76,7 @@ class ContactSerializer(serializers.ModelSerializer):
 
         if password1 != password2:
             raise serializers.ValidationError({'password2': 'Passwords do not match.'})
+            # the above validation error will return a message
 
         return attrs
 
@@ -91,7 +89,6 @@ class ContactSerializer(serializers.ModelSerializer):
         password2 = validated_data.pop('password2')
        
         validated_data['password'] = make_password(password1)
-
 
         # Create the user object
         user = User.objects.create_user(

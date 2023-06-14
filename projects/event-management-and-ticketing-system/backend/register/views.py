@@ -46,7 +46,7 @@ class UserAPIView(APIView):
                 print(fields, errors)
                 for error in errors:
                     messages.error(request, error)
-            
+                            
             return redirect('register:create_user_account')
         
 
@@ -151,7 +151,7 @@ class UserLoginAPIView(APIView):
         print(type(user))
         
         if user is not None:
-            auth_login(request, user)              # Log in the authenticated user
+            auth_login(request, user)               # Log in the authenticated user
             object_query_set = Contact.objects.filter(username=username)
             return Response({'user': object_query_set}, template_name='index/index.html')
 
