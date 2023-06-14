@@ -38,9 +38,15 @@ class UserAPIView(APIView):
             messages.success(request, 'Your account has been successfully created.')
 
             return redirect('register:login')
-        
+
+
         else:
-            messages.error(request, 'Username or email already exist!!')
+            print( serializer.errors.items())          
+            for fields, errors in serializer.errors.items():
+                print(fields, errors)
+                for error in errors:
+                    messages.error(request, error)
+            
             return redirect('register:create_user_account')
         
 

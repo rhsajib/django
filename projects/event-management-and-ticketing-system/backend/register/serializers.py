@@ -1,13 +1,16 @@
+
 from .models import Contact
 
 from django.contrib.auth.models import User
-from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib import messages
+from django.core.validators import MinLengthValidator, RegexValidator
+
 
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
@@ -15,18 +18,34 @@ from rest_framework.validators import UniqueValidator
 
 
 
+
+
+
 class ContactSerializer(serializers.ModelSerializer):
+
     # # uniqueness validation of username and email fields 
     username = serializers.CharField(
         max_length = 100,
-        validators = [UniqueValidator(queryset=Contact.objects.all())]
+        validators = [UniqueValidator(queryset=Contact.objects.all(), message='Username already exists.')]
         )
     
     email = serializers.EmailField(
-        validators = [UniqueValidator(queryset=Contact.objects.all())]
+        validators = [UniqueValidator(queryset=Contact.objects.all(), message='Email already exists.')]
         )
-    password1 = serializers.CharField(write_only=True)
-    password2 = serializers.CharField(write_only=True)
+    
+    password1 = serializers.CharField(
+        write_only=True,
+        validators=[
+            MinLengthValidator(8, message='Password must be at least 8 characters.'),
+            RegexValidator(
+                regex=r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d$@$!%*?&].*$',
+                message='Password must contain at least one uppercase letter, one lowercase letter, and one digit.'
+            )
+        ]
+    )
+
+
+    password2 = serializers.CharField()
     
     class Meta:
         model = Contact
@@ -52,27 +71,35 @@ class ContactSerializer(serializers.ModelSerializer):
         }
 
 
+  
+    # validating password1 and password2
+    def validate(self, attrs):
+        password1 = attrs.get('password1')
+        password2 = attrs.get('password2')
+
+        if password1 != password2:
+            raise serializers.ValidationError({'password2': 'Passwords do not match.'})
+
+        return attrs
+
+
 
     # creating a new user with the given validated data 
     def create(self, validated_data):
+        
         password1 = validated_data.pop('password1')
         password2 = validated_data.pop('password2')
-
-        if password1 != password2:
-            raise serializers.ValidationError("Passwords do not match.")
-
+       
         validated_data['password'] = make_password(password1)
 
+
         # Create the user object
-
-
         user = User.objects.create_user(
             username=validated_data['username'],
             password=validated_data['password'],
             email=validated_data['email']
         )
-        
-        # Save the user object
+        user.is_active = False
         user.save()
 
         """
@@ -87,8 +114,17 @@ class ContactSerializer(serializers.ModelSerializer):
 
         # welcome email
         subject = 'Welcome to EMTS'
-        message = 'Hello ' + user.username + '!! \n' + 'Welcome to EMTS. \n' +'thanks for visiting our website.'
+        message = 'Hello ' + validated_data['name'] + '!! \n'  \
+                    + 'Welcome to EMTS. \n'  \
+                    + 'thanks for visiting our website.'
+        
+        from_email = settings.EMAIL_HOST_USER
+        to_email_list = [user.email]
 
+        send_mail(subject, message, from_email, to_email_list, fail_silently=False)
+        # fail_silently=True means if the app fails to send email to user it will not crash
+
+        """
 
         # Generate activation token
         token_generator = PasswordResetTokenGenerator()
@@ -102,11 +138,14 @@ class ContactSerializer(serializers.ModelSerializer):
         subject = 'Activate your account'
         message = f'Please click the following link to activate your account: {activation_link}'
         from_email = settings.DEFAULT_FROM_EMAIL
-        to_email = user.email
-        send_mail(subject, message, from_email, [to_email])
+        to_email_list = [user.email]
+
+        send_mail(subject, message, from_email, to_email_list, fail_silently=True)
+        # fail_silently=True means if the app fails to send email to user it will not crash
+
+        """
 
 
-        
         # Create the YourModel object
         new_contact = Contact.objects.create(**validated_data)
 
