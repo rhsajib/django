@@ -1,6 +1,0 @@
-- create a folder named 'backend'
-
-- then cd backend
-- django-admin startproject projectname .
-
-note: dot after project name means, project will be created inside backend directory.
