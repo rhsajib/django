@@ -1,0 +1,163 @@
+## Creating model with default Manager 
+
+```python
+from django.db import models
+
+class Posts(models.Model):
+    title = models.CharField(max_length=250)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.title
+```
+
+For query in the above model, we use `Posts.objects.all()`. \
+If we want to change the term `objects`, we have to create a new manager.
+
+## # creating custom Model Manager
+```python
+from django.db import models
+
+class Posts(models.Model):
+    title = models.CharField(max_length=250)
+    content = models.TextField()
+    
+    # create custom manager
+    newmanager = models.Manager()
+
+    def __str__(self):
+        return self.title
+```
+Now, For query in the above model, we use `Posts.newmanager.all()`. \
+`Posts.objects.all() -> Posts.newmanager.all()`
+
+```python
+>>> from blog.models import Posts
+>>> Posts.newmanager.all()
+<QuerySet []>
+>>> Posts.objects.all()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: type object 'Posts' has no attribute 'objects'
+```
+
+
+
+
+
+
+from django.db import models
+
+# Create your models here.
+class Product(models.Model):
+    title = models.CharField(max_length=120)
+    content = models.TextField(blank=True, null=True)
+    price = models.DecimalField(max_digits=150, decimal_places=2, default=99.99)
+    publish = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.title
+
+
+
+Product.objects.create(title = 'Hello world', content = 'this is amazing!', price = 0.00)
+q = product.objects.get(id=1)
+q = product.objects.get(pk=1)   #pk = primary key
+q = product.objects.get(title='Hello world')
+
+--------------------------------------------------------------------------------------
+
+stdetail = Student.objects.get(pk=student_id).__dict__
+    # __dict__ is used to get dictionary of all attributes with values of the object 
+    # output:
+    # {'_state': <django.db.models.base.ModelState object at 0x103afb210>, 
+    # 'id': 1, 
+    # 'firstname': 'shaina', 
+    # 'surname': 'austin', 
+    # 'age': 20, 'classroom': 1, 
+    # 'teacher': 'trellany'}
+
+##app.html
+<ul>
+{% for attr, value in stdetail.items %}
+    {% if attr != '_state' %}
+    <li>{{ attr }}: {{ value }}</li>
+    {% endif %}
+{% endfor %}
+</ul>
+
+--------------------------------------------------------------------------------------
+
+q.title    # see title of q object
+q.content   # see content of q object
+q.price    # see price of q object
+q.id    # see id of q object
+
+q.query   # actual SQL code that has been run on ORM
+
+
+from django.db import connection
+connection.queries  # returns information of q.query as well as query time
+
+
+# inserting object in a specific id
+q = Contact(id=1, title='new hello world')
+q.save()
+
+
+# creating new object
+q2 = Product.objects.create()
+
+# Change values by changing the attributes, then calling save()
+q2.title = 'hello world again'
+q2.content = 'this is good!'
+q2.price = 12.00
+q2.save()
+
+# deleting an object
+q = Product.objects.get(pk=1)
+q.delete()
+
+Product.objects.all()
+Product.objects.all().values()   # all values inside of a table   # return list of dictionaries.
+
+Product.objects.filter(id=1)
+
+q = Product.objects.filter(title='hello world')   # return first item which is a QuerySet
+
+# we can do some operations on q QuerySet
+len(q)
+q[0]
+q[0].title
+q[0].id
+
+
+
+Product.objects.filter(id=1, title='hello world')
+Product.objects.filter(id=1)\ 
+	.filter(title='hello world')
+
+# in the above both commands are same, the second one is used for multiple filters
+
+
+Product.objects.filter(title='hello world').first()  # return an object
+Product.objects.filter(title__startswith="Hello") # return a QuerySet
+Product.objects.filter(title__endswith="world")   # return a QuerySet
+
+Product.objects.filter(title='hello world')\ 
+	.exclude(id=1)                            #return all titles that matched 'hello world' excluding id=1
+
+Product.objects.filter(publish__year=2022)\ 
+	.exclude(id=1) 
+
+Product.objects.filter(publish__year=2022)\ 
+	.order_by('publish') 
+
+Product.objects.filter(publish__year=2022)\ 
+	.order_by('-publish') 
+
+
+Product.objects.all().order_by('?').first()        # get random product
+
+
+

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Detail{% endblock title %}
+
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock navbar %}
+
+
+
+
+
+{% block body %}
+
+
+
+<div class="container-fluid flex mt-3">
+    <div class="row justify-content-center">
+        <div class="col-7">
+            <h4 class="text-center">Post detail</h4>
+
+            {% if request.user == post.user %}
+                <a href="{% url 'tution:PostUpdateView' post.id%}">Edit details</a> <br>
+                <a href="{% url 'tution:PostDeleteView' post.id%}">Delete post</a> <br>
+                
+                <br>
+            {% endif %}
+
+
+            Title: {{post.title}}<br>
+            User: {{post.user}}    <br><br><br>
+            
+            {% for key, value in post_dict.items %}
+                {{key.capitalize}}  :   {{value}} <br>
+            {% endfor %}
+            <br><br>
+            {{message}}  
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock body %}

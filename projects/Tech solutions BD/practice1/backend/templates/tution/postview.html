@@ -1,0 +1,28 @@
+
+{% extends 'base.html' %}
+
+
+{% block title %}Contact{% endblock title %}
+
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock navbar %}
+
+{% block body %}
+
+
+<div class="container-fluid flex mt-3">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            {% for p in posts %}
+                {{p.title}} : <a href="{% url 'tution:PostsDetailView' p.id %}">Details</a>
+
+                <hr>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock body %}
+

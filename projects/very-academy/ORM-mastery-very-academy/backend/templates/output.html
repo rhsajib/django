@@ -1,0 +1,25 @@
+
+{% if stdetail %}
+
+<h1>Details of {{stdetail.firstname}}</h1>
+
+<ul>
+{% for attr, value in stdetail.items %}
+    {% if attr != '_state' %}
+    <li>{{ attr }}: {{ value }}</li>
+    {% endif %}
+{% endfor %}
+</ul>
+
+{% endif %}
+
+
+
+{% if post %}
+<ul>
+{% for pst in  post %}
+    <li><a href="{%url 'student:student_detail' pst.id %}">{{pst}}</a></li>
+
+{% endfor %}
+</ul>
+{% endif %}
