@@ -65,7 +65,6 @@ def post_filter(request):
 
     if salary_to and (salary_to > salary_from):
         results = results.filter(salary__lte=salary_to)
-    
   
     if nofilter == results:
         results = []
@@ -76,8 +75,6 @@ def post_filter(request):
         }
 
     return render(request, 'tution/postfilter.html', context)
-
-
 
 
 
