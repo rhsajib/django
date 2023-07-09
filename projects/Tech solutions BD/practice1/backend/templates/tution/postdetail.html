@@ -7,6 +7,8 @@
 {% include 'navbar.html' %}
 {% endblock navbar %}
 
+{% load humanize %}
+
 
 
 
@@ -15,7 +17,7 @@
 
 
 
-<div class="container-fluid flex mt-3">
+<div class="container-fluid flex my-3">
     <div class="row justify-content-center">
         <div class="col-7">
             <h4 class="text-center">Post detail</h4>
@@ -29,12 +31,31 @@
 
 
             Title: {{post.title}}<br>
-            User: {{post.user}}    <br><br><br>
+            User: {{post.user}}<br>
+            Created at: {{post.created_at | naturaltime}}<br><br><br>
             
             {% for key, value in post_dict.items %}
                 {{key.capitalize}}  :   {{value}} <br>
             {% endfor %}
-            <br><br>
+
+        
+            <br>
+            Subject: 
+            <ul>
+                {% for sub in post.subject.all %}
+                    <li>{{sub}}</li>
+                {% endfor %}              
+            </ul>
+
+            Class: 
+            <ul>
+            {% for class in post.class_in.all %}
+               <li>{{class}}</li>
+            {% endfor %}
+            </ul>
+            
+            
+            <br>
             {{message}}  
         </div>
     </div>

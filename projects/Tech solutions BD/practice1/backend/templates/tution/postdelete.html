@@ -18,10 +18,10 @@
             <form method="post">
                 {% csrf_token %}
 
-                Are you want to delete your post? <br>
+                Do you want to delete your post? <br>
                 <button type="submit" class="btn btn-outline-info mt-2">Yes</button>
             </form>
-            <button type="button" class="btn btn-outline-info mt-2" onclick="location.href='{% url 'tution:PostListView' %}'">No</button>
+            <button type="button" class="btn btn-outline-info mt-2" onclick="location.href='{% url 'tution:PostsDetailView' object.id%}'">No</button>
         </div>
     </div>
 </div>

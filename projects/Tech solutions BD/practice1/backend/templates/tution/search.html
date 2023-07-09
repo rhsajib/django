@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Search{% endblock title %}
+
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock navbar %}
+
+
+{% block body %}
+<div class="container-fluid flex mt-3">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div class="text-center">
+                <h4>Search Results</h4>
+            </div>  
+            <div>
+                <h5>Total {{results_count}} results found for '{{query}}'</h5>
+                <ul>
+                {% for result in results %}
+                <li>
+                    <a href="{% url 'tution:PostsDetailView' result.id%}">{{result}}</a>
+                </li>
+                {% endfor %}
+                </ul>
+            </div> 
+
+        </div>  
+    </div>
+</div>
+{% endblock body %}
