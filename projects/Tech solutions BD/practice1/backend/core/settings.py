@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'firstapp',
     'tution',
+    'session',
     "crispy_forms",
     "crispy_bootstrap5",
     'multiselectfield',

@@ -3,18 +3,28 @@
 <nav class="navbar navbar-expand-lg bg-success-subtle">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Tuition</a>
+
+
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
+
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'HomeView' %}">Home</a>
           </li>
+
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/admin/">Admin</a>
           </li>
 
+
+          {% if user.is_authenticated %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Posts
@@ -26,6 +36,8 @@
               <li><a class="dropdown-item" href="{% url 'tution:postview' %}">Post view</a></li>
             </ul>
           </li>
+
+          
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Contact
@@ -37,6 +49,7 @@
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </li>
+          {% endif %}
 
         </ul>
 
@@ -57,17 +70,44 @@
           </li>
         </ul>
 
-        <ul class="navbar-nav me-auto ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" href="">{{request.user}}</a>
-          </li>
-        </ul>
-        
-        
 
-        <form class="d-flex" action="{% url 'tution:ContactView' %}">
-          <button class="btn btn-info" type="submit">Sign up</button>
-        </form>
+
+
+
+
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {% if user.is_authenticated %}
+          {% comment %} <ul class="navbar-nav me-auto ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="btn btn-outline-primary" href="">{{request.user}}</a>
+            </li>
+          </ul>
+           {% endcomment %}
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <strong>{{request.user.username.capitalize}}</strong>
+              {% comment %} {{ request.user.username|upper }}or, {{ request.user.username|capfirst }} {% endcomment %}
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'session:logout_user' %}">Log out</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{% url 'session:change_password' %}">Change Password</a></li>
+            </ul>
+          </li>
+        
+        {% else %}
+          <form class="d-flex" action="{% url 'session:login_user' %}">
+            <button class="btn btn-info" type="submit">Log in</button>
+          </form> 
+          <form class="d-flex ms-2" action="{% url 'session:signup_user' %}">
+            <button class="btn btn-info" type="submit">Sign up</button>
+          </form> 
+
+        {% endif %}
+      </ul>
+
+ 
 
       </div>
     </div>

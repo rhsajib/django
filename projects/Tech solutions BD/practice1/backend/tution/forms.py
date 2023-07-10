@@ -13,7 +13,7 @@ class ContactForm(forms.Form):
 class ContactModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['name'].label =  'My Name'
+        self.fields['name'].label =  'Your Name'
         self.fields['phone'].initial =  '+880'
         self.fields['content'].initial =  'My content is'
 
@@ -39,6 +39,7 @@ class ContactModelForm(forms.ModelForm):
         #     'content': 'Let Us Know Something',
         # }
 
+    # add some conditions for name field
     def clean_name(self):
         value = self.cleaned_data['name']
         # value = self.cleaned_data.get('name')

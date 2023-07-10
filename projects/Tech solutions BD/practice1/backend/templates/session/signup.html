@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up{% endblock title %}
+
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock navbar %}
+
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+
+<div class="d-flex align-items-center justify-content-center">
+
+    <div class="container-fluid flex">
+        <div class="row justify-content-center">
+            <div class="col-5 my-5">
+          
+                <form method="post" autocomplete="off">
+                    {% csrf_token %}
+                    {{form|crispy}}                              
+                
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-outline-info mt-2 mx-5"> Sign Up </button>
+                    </div> 
+                </form>
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock body %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Log in{% endblock title %}
+
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock navbar %}
+
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+
+    <div class="container-fluid flex mb-5 pb-5">
+        <div class="d-flex row justify-content-center">
+            <div class="col-4">
+
+                <!-- messages from backend -->
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="text-center alert alert-{{message.tags}} alert-primary alert-dismissible fade show" role="alert">
+                        {{message}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            
+                <form method="post" autocomplete="off">
+                    {% csrf_token %}
+                    {{form|crispy}}                              
+                
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-outline-info mt-2"> Login </button>
+                    </div> 
+                </form>
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock body %}

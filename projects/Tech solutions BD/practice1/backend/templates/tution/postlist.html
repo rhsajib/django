@@ -8,6 +8,7 @@
 
 
 {% block body %}
+
 <div class="container-fluid flex mt-3">
     <div class="row justify-content-between">
         <div class="col-1">
@@ -47,20 +48,20 @@
                 <div class="row justify-content-center ms-5">                   
                     <div class="input-group mb-3">
                         <select class="form-select" id="inputGroupSelect02" name="subject">
-                        <option selected></option>
-                        {% for subject in subjects %}
-                            <option value="{{subject}}">{{subject}}</option>
-                        {% endfor %}
+                            <option selected>Choose...</option>
+                            {% for subject in subjects %}
+                                <option value="{{subject}}">{{subject}}</option>
+                            {% endfor %}
                         </select>
                         <label class="input-group-text" for="inputGroupSelect02">Subjects</label>
                     </div>
                     
                     <div class="input-group mb-3">  
                         <select class="form-select" id="inputGroupSelect02" name="class_in">
-                        <option selected></option>
-                        {% for class in class_in %}
-                            <option value="{{class}}">{{class}}</option>
-                        {% endfor %}
+                            <option selected>Choose...</option>
+                            {% for class in class_in %}
+                                <option value="{{class}}">{{class}}</option>
+                            {% endfor %}
                         </select>
                         <label class="input-group-text" for="inputGroupSelect02">Class</label>                            
                     </div>                              
@@ -93,10 +94,10 @@
                     <div class="form-check mb-3 ms-4">
                         <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="available">
                         <label class="form-check-label" for="flexCheckDefault">
-                          Only Available
+                        Only Available
                         </label>
                     </div>
-                  
+                
                     <div class="d-grid gap-2 mb-3">
                         <button type="submit" class="btn btn-primary"> Filter </button>
                     </div>                   
@@ -111,6 +112,8 @@
         </div>
     </div>
 </div>
+
+
 {% endblock body %}
 
 

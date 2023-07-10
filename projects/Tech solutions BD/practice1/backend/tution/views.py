@@ -49,11 +49,11 @@ def post_filter(request):
 
     nofilter = results = Post.objects.all()
 
-    if sub_query:
+    if sub_query != 'Choose...':
         queryset = (Q(subject__name__icontains=sub_query))
         results = results.filter(queryset).distinct()
 
-    if class_query:
+    if class_query != 'Choose...':
         queryset = (Q(class_in__name__icontains=class_query))
         results = results.filter(queryset).distinct()
 
